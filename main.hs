@@ -11,19 +11,27 @@ splitAtBlank (SplitResult (x:xs) r)
   | otherwise = splitAtBlank (SplitResult xs (r++[x]))
 
 splitAtBlank2 :: String -> String -> (String, String)
-splitAtBlank2 [] x = ([], x)
+splitAtBlank2 [] x = (x, [])
 splitAtBlank2 (x:xs) r
   | x == ' ' = (r, xs)
-  | otherwise = splitAtBlank2 xs (r++[x])
+  | otherwise = splitAtBlank2 (r++[x]) xs
 
 reverseWord :: String -> String
 reverseWord [] = []
 reverseWord (x:xs) = reverseWord xs ++ [x]
 
+
+wordList :: String -> [String]
+wordList [] = []
+wordList x = do
+  let result = splitAtBlank2 x [] 
+  [fst result] ++ (wordList $ snd result)
+
 main :: IO ()
 main = do 
   let result = splitAtBlank (SplitResult "abcd bc def" [])
   let result4 = reverseWord $ word result
-  let result2 = splitAtBlank2 "abcd bc def" []
+  let result2 = splitAtBlank2 "abcd def geg" []
   let result3 = reverseWord $ fst result2
-  print result4
+  let result5 = wordList "abcd"
+  print result2
