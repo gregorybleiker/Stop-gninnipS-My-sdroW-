@@ -1,9 +1,3 @@
-splitAtBlank :: String -> String -> (String, String)
-splitAtBlank [] x = (x, [])
-splitAtBlank (x:xs) r
-  | x == ' ' = (r, xs)
-  | otherwise = splitAtBlank xs (r++[x])
-
 conditionalReverse :: String -> String
 conditionalReverse x
   | length x > 4 = reverse x
@@ -12,9 +6,9 @@ conditionalReverse x
 spinWords :: String -> String
 spinWords [] = []
 spinWords x 
-  | v == [] = (conditionalReverse $ u)
-  | otherwise = (conditionalReverse $ u) ++ " " ++ (spinWords $ v)
-  where (u,v) = splitAtBlank x []
+  | v == [] = (conditionalReverse u)
+  | otherwise = (conditionalReverse u) ++ " " ++ (spinWords $ unwords v)
+  where (u:v) = words x
 
 main :: IO ()
 main = do 
