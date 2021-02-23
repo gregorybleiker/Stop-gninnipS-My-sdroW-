@@ -13,13 +13,14 @@ conditionalReverse x
   | length x > 4 = reverseWord x
   | otherwise = x
 
-wordList :: String -> String
-wordList [] = []
-wordList x = do
-  let result = splitAtBlank x [] 
-  (conditionalReverse $ fst result) ++ " " ++ (wordList $ snd result)
+spinWords :: String -> String
+spinWords [] = []
+spinWords x 
+  | v == [] = (conditionalReverse $ u)
+  | otherwise = (conditionalReverse $ u) ++ " " ++ (spinWords $ v)
+  where (u,v) = splitAtBlank x []
 
 main :: IO ()
 main = do 
-  let result = wordList "Stop Spinning My Words"
+  let result = spinWords "Stop Spinning My Words"
   print result
